@@ -949,3 +949,11 @@ spec = do
         "= /Header/ __1__\nFoo" `shouldParseTo`
           DocHeader (Header 1 (DocEmphasis "Header" <> " " <> DocBold "1"))
           <> DocParagraph "Foo"
+
+
+    context "when input begins with 'md'" $ do
+      it "can parse CommonMark" $ do
+        "md\nHeader 1\n--------\nHello *world* [link](url)."
+          `shouldParseTo`
+          (DocHeader (Header {headerLevel = 2, headerTitle = DocIdentifier "Header-1"}) <>
+           DocParagraph (DocString "Hello " <> DocEmphasis (DocString "world") <> DocString " " <> DocHyperlink (Hyperlink {hyperlinkUrl = "url", hyperlinkLabel = Just "link"}) <> DocString "."))

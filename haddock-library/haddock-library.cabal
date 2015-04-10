@@ -25,6 +25,8 @@ library
     , bytestring
     , transformers
     , deepseq
+    , text
+    , cmark >= 0.3.1
 
   hs-source-dirs:       src, vendor/attoparsec-0.12.1.1
   ghc-options:          -funbox-strict-fields -Wall -fwarn-tabs -O2
@@ -77,6 +79,8 @@ test-suite spec
     , base-compat
     , hspec
     , QuickCheck == 2.*
+    , text
+    , cmark
 
 source-repository head
   type:     git

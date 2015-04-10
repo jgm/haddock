@@ -24,7 +24,7 @@ import           Control.Arrow (first)
 import           Control.Monad
 import qualified Data.ByteString.Char8 as BS
 import           Data.Char (chr, isAsciiUpper)
-import           Data.List (stripPrefix, intercalate, unfoldr)
+import           Data.List (stripPrefix, intercalate, intersperse, unfoldr, isPrefixOf)
 import           Data.Maybe (fromMaybe)
 import           Data.Monoid
 import           Documentation.Haddock.Doc
@@ -33,6 +33,8 @@ import           Documentation.Haddock.Parser.Util
 import           Documentation.Haddock.Types
 import           Documentation.Haddock.Utf8
 import           Prelude hiding (takeWhile)
+import qualified Data.Text as T
+import           CMark
 
 -- $setup
 -- >>> :set -XOverloadedStrings
@@ -87,8 +89,12 @@ parse p = either err id . parseOnly (p <* endOfInput)
 -- to the input string.
 parseParas :: String -- ^ String to parse
            -> MetaDoc mod Identifier
-parseParas input = case parseParasState input of
-  (state, a) -> MetaDoc { _meta = Meta { _version = parserStateSince state }
+parseParas input =
+  if "md" `isPrefixOf` input
+     then parseCommonMark $ dropWhile (`elem` [' ','\n']) $ drop 2 input
+     else case parseParasState input of
+          (state, a) -> MetaDoc {
+                          _meta = Meta { _version = parserStateSince state }
                         , _doc = a
                         }
 
@@ -555,3 +561,50 @@ identifier = do
   return $ DocIdentifier (o, vid, e)
   where
     idDelim = char '\'' <|> char '`'
+
+-- | Parse the string as commonmark.
+parseCommonMark :: String -> MetaDoc mod Identifier
+parseCommonMark s = MetaDoc{
+    _meta = Meta{ _version = Nothing }
+  , _doc = nodeToDocH $ commonmarkToNode [] (T.pack s)
+  }
+
+-- | Convert CommonMark Node to DocH.
+nodeToDocH :: Node -> DocH mod Identifier
+nodeToDocH (Node _ nodeType children) =
+  case nodeType of
+       DOCUMENT -> children'
+       HRULE -> DocEmpty
+       PARAGRAPH -> DocParagraph children'
+       BLOCK_QUOTE -> children'  -- TODO?
+       HTML _ -> DocEmpty
+       CODE_BLOCK _info code -> DocCodeBlock (DocString (T.unpack code))
+       HEADER level -> DocHeader (Header level (toId $ stringify children))
+       LIST attr -> case listType attr of
+                     BULLET_LIST -> DocUnorderedList items'
+                     ORDERED_LIST -> DocOrderedList items'
+       ITEM -> children'
+       TEXT text -> DocString (T.unpack text)
+       SOFTBREAK -> DocString "\n"
+       LINEBREAK -> DocString "\n" -- TODO?
+       INLINE_HTML _ -> DocEmpty
+       CODE code -> DocMonospaced  (DocString (T.unpack code))
+       EMPH -> DocEmphasis children'
+       STRONG -> DocBold children'
+       LINK url title -> DocHyperlink (Hyperlink (T.unpack url) (label title))
+       IMAGE url title -> DocPic (Picture (T.unpack url) (label title))
+  where children' = docConcat $ map nodeToDocH children
+        items' = map nodeToDocH children
+        label title =
+                if null children
+                   then if T.null title
+                           then Nothing
+                           else Just (T.unpack title)
+                   else Just $ stringify children
+        stringify = concatMap toString
+        toString (Node _ (TEXT t) _) = T.unpack t
+        toString (Node _ SOFTBREAK _) = "\n"
+        toString (Node _ LINEBREAK _) = "\n"
+        toString (Node _ (CODE t) _) = T.unpack t
+        toString (Node _ _ xs) = stringify xs
+        toId s = DocIdentifier ('\'', concat (intersperse "-" (words s)), '\'')
