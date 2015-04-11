@@ -578,7 +578,10 @@ nodeToDocH (Node _ nodeType children) =
        PARAGRAPH -> DocParagraph children'
        BLOCK_QUOTE -> children'  -- TODO?
        HTML _ -> DocEmpty
-       CODE_BLOCK _info code -> DocCodeBlock (DocString (T.unpack code))
+       CODE_BLOCK _info code
+         | ">>> " `T.isPrefixOf` code ->
+             DocExamples (parseExamples (lines $ T.unpack code))
+         | otherwise -> DocCodeBlock (DocString (T.unpack code))
        HEADER level -> DocHeader (Header level children')
        LIST attr -> case listType attr of
                      BULLET_LIST -> DocUnorderedList items'
@@ -607,3 +610,12 @@ nodeToDocH (Node _ nodeType children) =
         toString (Node _ LINEBREAK _) = "\n"
         toString (Node _ (CODE t) _) = T.unpack t
         toString (Node _ _ xs) = stringify xs
+
+parseExamples :: [String] -> [Example]
+parseExamples [] = []
+parseExamples (('>':'>':'>':' ':xs) : ys) =
+  Example{ exampleExpression = xs
+         , exampleResult = results } : parseExamples rest
+  where (results, rest) = break isNewExample ys
+        isNewExample = isPrefixOf ">>> "
+parseExamples _ = [] -- should not happen
