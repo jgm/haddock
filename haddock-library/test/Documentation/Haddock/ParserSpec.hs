@@ -955,5 +955,5 @@ spec = do
       it "can parse CommonMark" $ do
         "md\nHeader 1\n--------\nHello *world* [link](url)."
           `shouldParseTo`
-          (DocHeader (Header {headerLevel = 2, headerTitle = DocIdentifier "Header-1"}) <>
+          (DocHeader (Header {headerLevel = 2, headerTitle = DocString "Header 1"}) <>
            DocParagraph (DocString "Hello " <> DocEmphasis (DocString "world") <> DocString " " <> DocHyperlink (Hyperlink {hyperlinkUrl = "url", hyperlinkLabel = Just "link"}) <> DocString "."))
