@@ -41,6 +41,115 @@ window.onload = function () {pageLoad();setSynopsis("mini_CommonMark.html");};
 	><p class="caption"
 	>CommonMark</p
 	></div
+      ><div id="description"
+      ><p class="caption"
+	>Description</p
+	><div class="doc"
+	><h2
+	  >CommonMark in Haddock</h2
+	  ><p
+	  >This module demonstrates CommonMark comment syntax.</p
+	  ><ol
+	  ><li
+	    ><p
+	      >A list</p
+	      ><ul
+	      ><li
+		><p
+		  >an unordered sublist</p
+		  ><p
+		  >with a second paragraph</p
+		  ></li
+		><li
+		>another item in the same sublist</li
+		></ul
+	      ></li
+	    ><li
+	    >Another list item</li
+	    ></ol
+	  ><pre
+	  >this `is` a &quot;code block&quot; &gt;&gt;= putStrLn
+</pre
+	  ><pre
+	  >So is this.
+</pre
+	  ><p
+	  >You can have code examples as usual in haddock. These are
+automatically recognized if they begin with <code
+	    >&gt;&gt;&gt;</code
+	    >.</p
+	  ><pre class="screen"
+	  ><code class="prompt"
+	    >&gt;&gt;&gt; </code
+	    ><strong class="userinput"
+	    ><code
+	      >fib 5
+</code
+	      ></strong
+	    >5
+<code class="prompt"
+	    >&gt;&gt;&gt; </code
+	    ><strong class="userinput"
+	    ><code
+	      >fib 10
+</code
+	      ></strong
+	    >55
+</pre
+	  ><pre class="screen"
+	  ><code class="prompt"
+	    >&gt;&gt;&gt; </code
+	    ><strong class="userinput"
+	    ><code
+	      >fib 10
+</code
+	      ></strong
+	    >55
+</pre
+	  ><p
+	  >Example with an import:</p
+	  ><pre class="screen"
+	  ><code class="prompt"
+	    >&gt;&gt;&gt; </code
+	    ><strong class="userinput"
+	    ><code
+	      >import Data.Char
+</code
+	      ></strong
+	    ><code class="prompt"
+	    >&gt;&gt;&gt; </code
+	    ><strong class="userinput"
+	    ><code
+	      >isSpace 'a'
+</code
+	      ></strong
+	    >False
+
+<code class="prompt"
+	    >&gt;&gt;&gt; </code
+	    ><strong class="userinput"
+	    ><code
+	      >putStrLn &quot;foo\n\nbar&quot;
+</code
+	      ></strong
+	    >foo
+
+bar
+</pre
+	  ><p
+	  >Here's a <a href=""
+	    >link to the CommonMark spec</a
+	    >
+and an autolink: <a href=""
+	    >http://spec.commonmark.org</a
+	    >.</p
+	  ><p
+	  >Raw HTML and horizontal rules are just ignored,
+as they have no haddock equivalent.</p
+	  ><p
+	  >Block quotes are treated as regular paragraphs.</p
+	  ></div
+	></div
       ><div id="synopsis"
       ><p id="control.syn" class="caption expander" onclick="toggleSection('syn')"
 	>Synopsis</p
@@ -72,12 +181,6 @@ window.onload = function () {pageLoad();setSynopsis("mini_CommonMark.html");};
 	    >X</a
 	    > = <a href=""
 	    >X</a
-	    ></li
-	  ><li class="src short"
-	  ><a href=""
-	    >reExport</a
-	    > :: <a href=""
-	    >Int</a
 	    ></li
 	  ></ul
 	></div
@@ -123,13 +226,13 @@ window.onload = function () {pageLoad();setSynopsis("mini_CommonMark.html");};
 	    ></p
 	  ><div class="doc"
 	  ><p
-	    >Markdown <em
-	      >Doc</em
-	      > for <a href=""
-	      >link</a
-	      > <code
+	    >Here is a CommonMark description of <code
 	      >test2</code
-	      ></p
+	      >.
+A code example:</p
+	    ><pre
+	    >test2 == False
+</pre
 	    ></div
 	  ></div
 	><div class="top"
@@ -141,7 +244,18 @@ window.onload = function () {pageLoad();setSynopsis("mini_CommonMark.html");};
 	    ></p
 	  ><div class="doc"
 	  ><p
-	    >Not *markdown*</p
+	    >This comment does not begin with <code
+	      >md</code
+	      >, so it is processed
+ as regular <em
+	      >haddock markup</em
+	      >, not *CommonMark*.  So we can
+ talk about <code
+	      ><a href=""
+		>X</a
+		></code
+	      >, for example, and this will be made into
+ a link.</p
 	    ></div
 	  ><div class="subs constructors"
 	  ><p class="caption"
@@ -158,18 +272,6 @@ window.onload = function () {pageLoad();setSynopsis("mini_CommonMark.html");};
 		  ></td
 		></tr
 	      ></table
-	    ></div
-	  ></div
-	><div class="top"
-	><p class="src"
-	  ><a name="v:reExport" class="def"
-	    >reExport</a
-	    > :: <a href=""
-	    >Int</a
-	    ></p
-	  ><div class="doc"
-	  ><p
-	    >Should show up on the page for both modules A and B</p
 	    ></div
 	  ></div
 	></div
