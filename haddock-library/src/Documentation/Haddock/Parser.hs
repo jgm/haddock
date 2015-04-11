@@ -579,7 +579,7 @@ nodeToDocH (Node _ nodeType children) =
        BLOCK_QUOTE -> children'  -- TODO?
        HTML _ -> DocEmpty
        CODE_BLOCK _info code -> DocCodeBlock (DocString (T.unpack code))
-       HEADER level -> DocHeader (Header level (toId $ stringify children))
+       HEADER level -> DocHeader (Header level children')
        LIST attr -> case listType attr of
                      BULLET_LIST -> DocUnorderedList items'
                      ORDERED_LIST -> DocOrderedList items'
