@@ -26,7 +26,7 @@ library
     , transformers
     , deepseq
     , text
-    , cmark >= 0.3.1
+    , cmark >= 0.3.1 && < 0.4
 
   hs-source-dirs:       src, vendor/attoparsec-0.12.1.1
   ghc-options:          -funbox-strict-fields -Wall -fwarn-tabs -O2
@@ -80,7 +80,7 @@ test-suite spec
     , hspec
     , QuickCheck == 2.*
     , text
-    , cmark
+    , cmark >= 0.3.1 && < 0.4
 
 source-repository head
   type:     git
