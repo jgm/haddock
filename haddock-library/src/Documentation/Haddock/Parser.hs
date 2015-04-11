@@ -24,7 +24,7 @@ import           Control.Arrow (first)
 import           Control.Monad
 import qualified Data.ByteString.Char8 as BS
 import           Data.Char (chr, isAsciiUpper)
-import           Data.List (stripPrefix, intercalate, intersperse, unfoldr, isPrefixOf)
+import           Data.List (stripPrefix, intercalate, unfoldr, isPrefixOf)
 import           Data.Maybe (fromMaybe)
 import           Data.Monoid
 import           Documentation.Haddock.Doc
@@ -607,4 +607,3 @@ nodeToDocH (Node _ nodeType children) =
         toString (Node _ LINEBREAK _) = "\n"
         toString (Node _ (CODE t) _) = T.unpack t
         toString (Node _ _ xs) = stringify xs
-        toId s = DocIdentifier ('\'', concat (intersperse "-" (words s)), '\'')
