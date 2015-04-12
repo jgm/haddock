@@ -91,7 +91,7 @@ parseParas :: String -- ^ String to parse
            -> MetaDoc mod Identifier
 parseParas input =
   if "md" `isPrefixOf` input
-     then parseCommonMark $ dropNewline $ drop 2 input
+     then parseCommonMark $ dropNewline $ drop 2 $ filter (/= '\r') input
      else case parseParasState input of
           (state, a) -> MetaDoc {
                           _meta = Meta { _version = parserStateSince state }
@@ -569,7 +569,8 @@ identifier = do
 parseCommonMark :: String -> MetaDoc mod Identifier
 parseCommonMark s = MetaDoc{
     _meta = Meta{ _version = Nothing }
-  , _doc = nodeToDocH $ commonmarkToNode [] (T.pack s)
+  , _doc = nodeToDocH $ commonmarkToNode []
+             (T.pack $ unlines $ filter (not . isLineMarker) $ lines s)
   }
 
 -- | Convert CommonMark Node to DocH.
@@ -622,3 +623,13 @@ parseExamples (('>':'>':'>':' ':xs) : ys) =
   where (results, rest) = break isNewExample ys
         isNewExample = isPrefixOf ">>> "
 parseExamples _ = [] -- should not happen
+
+isLineMarker :: String -> Bool
+isLineMarker =
+  either (const False) (const True) . parseOnly (lineMarker <* endOfInput) .
+    encodeUtf8
+  where lineMarker = char '#' *> sps *> many1 digit *> sps *>
+                     quotedFname *> sps *>
+                     satisfy (`elem` ['1','2','3','4'])
+        quotedFname = char '"' *> takeWhile (/='"') *> char '"'
+        sps = many1 (char ' ' <|> char '\t')

@@ -957,3 +957,9 @@ spec = do
           `shouldParseTo`
           (DocHeader (Header {headerLevel = 2, headerTitle = DocString "Header 1"}) <>
            DocParagraph (DocString "Hello " <> DocEmphasis (DocString "world") <> DocString " " <> DocHyperlink (Hyperlink {hyperlinkUrl = "url", hyperlinkLabel = Just "link"}) <> DocString "."))
+
+      it "ignores cpp line markers" $ do
+        "md\n# 1 \"html-tests/src/../README.markdown\" 1\nHeader 1\n--------\nHello *world* [link](url).\n# 8 \"html-tests/src/CMarkInclude.hs\" 2"
+          `shouldParseTo`
+          (DocHeader (Header {headerLevel = 2, headerTitle = DocString "Header 1"}) <>
+           DocParagraph (DocString "Hello " <> DocEmphasis (DocString "world") <> DocString " " <> DocHyperlink (Hyperlink {hyperlinkUrl = "url", hyperlinkLabel = Just "link"}) <> DocString "."))

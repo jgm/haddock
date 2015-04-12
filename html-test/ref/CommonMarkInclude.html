@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+><head
+  ><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+     /><title
+    >CommonMarkInclude</title
+    ><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean"
+     /><script src="haddock-util.js" type="text/javascript"
+    ></script
+    ><script type="text/javascript"
+    >//<![CDATA[
+window.onload = function () {pageLoad();setSynopsis("mini_CommonMarkInclude.html");};
+//]]>
+</script
+    ></head
+  ><body
+  ><div id="package-header"
+    ><ul class="links" id="page-menu"
+      ><li
+	><a href=""
+	  >Contents</a
+	  ></li
+	><li
+	><a href=""
+	  >Index</a
+	  ></li
+	></ul
+      ><p class="caption empty"
+      >&nbsp;</p
+      ></div
+    ><div id="content"
+    ><div id="module-header"
+      ><table class="info"
+	><tr
+	  ><th
+	    >Safe Haskell</th
+	    ><td
+	    >Safe</td
+	    ></tr
+	  ></table
+	><p class="caption"
+	>CommonMarkInclude</p
+	></div
+      ><div id="synopsis"
+      ><p id="control.syn" class="caption expander" onclick="toggleSection('syn')"
+	>Synopsis</p
+	><ul id="section.syn" class="hide" onclick="toggleSection('syn')"
+	><li class="src short"
+	  ><a href=""
+	    >fib</a
+	    > :: <a href=""
+	    >Integer</a
+	    > -&gt; <a href=""
+	    >Integer</a
+	    ></li
+	  ></ul
+	></div
+      ><div id="interface"
+      ><h1
+	>Documentation</h1
+	><div class="top"
+	><p class="src"
+	  ><a name="v:fib" class="def"
+	    >fib</a
+	    > :: <a href=""
+	    >Integer</a
+	    > -&gt; <a href=""
+	    >Integer</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >This is a testsuite for Haddock that uses the concept of &quot;golden files&quot;. That
+is, it compares output files against a set of reference files.</p
+	    ><p
+	    >To add a new test:</p
+	    ><ol
+	    ><li
+	      >Create a module in the <code
+		>html-test/src</code
+		> directory.</li
+	      ><li
+	      >Run <code
+		>cabal test</code
+		>. You should now have <code
+		>html-test/out/&lt;modulename&gt;.html</code
+		>.
+The test passes since there is no reference file to compare with.</li
+	      ><li
+	      ><p
+		>To make a reference file from the output file, run</p
+		><pre
+		>html-test/accept.lhs &lt;modulename&gt;
+</pre
+		></li
+	      ></ol
+	    ><p
+	    >Tips and tricks:</p
+	    ><p
+	    >To &quot;accept&quot; all output files (copy them to reference files), run</p
+	    ><pre
+	    >runhaskell accept.lhs
+</pre
+	    ><p
+	    >You can run all tests despite failing tests, like so</p
+	    ><pre
+	    >cabal test --test-option=all
+</pre
+	    ><p
+	    >You can pass extra options to haddock like so</p
+	    ><pre
+	    >cabal test --test-options='all --title=&quot;All Tests&quot;'
+</pre
+	    ></div
+	  ></div
+	></div
+      ></div
+    ><div id="footer"
+    ><p
+      >Produced by <a href=""
+	>Haddock</a
+	> version 2.16.1</p
+      ></div
+    ></body
+  ></html
+>
