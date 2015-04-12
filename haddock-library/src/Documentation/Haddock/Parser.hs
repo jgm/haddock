@@ -91,12 +91,15 @@ parseParas :: String -- ^ String to parse
            -> MetaDoc mod Identifier
 parseParas input =
   if "md" `isPrefixOf` input
-     then parseCommonMark $ dropWhile (`elem` [' ','\n']) $ drop 2 input
+     then parseCommonMark $ dropNewline $ drop 2 input
      else case parseParasState input of
           (state, a) -> MetaDoc {
                           _meta = Meta { _version = parserStateSince state }
                         , _doc = a
                         }
+   where dropNewline xs = case span (==' ') xs of
+                               (_, '\n':ys) -> ys
+                               _            -> xs
 
 parseParasState :: String -> (ParserState, DocH mod Identifier)
 parseParasState =
